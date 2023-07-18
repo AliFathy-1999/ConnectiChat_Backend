@@ -2,15 +2,16 @@ let { Schema, model } = require('mongoose');
 const { AppError } = require('../../lib');
 const validator = require('validator');
 const bcryptjs = require('bcryptjs');
+const { v4 : uuidv4 } = require('uuid');
 const schema = new Schema(
   {
     firstName : {
-      type :      String,
+      type : String,
       minLength : [3, 'First name must be at least 3 characters'],
       maxLength : [15, 'First name must be at less than 15 characters'],
-      required :  [true, 'First name is a required field'],
-      trim :      true,
-      match :     /^[A-Za-z\s]+$/,
+      required : [true, 'First name is a required field'],
+      trim : true,
+      match : /^[A-Za-z\s]+$/,
       validate(value) {
         if (!value.match(/^[A-Za-z\s]+$/)) {
           throw new AppError('First Name should contain alphabetic characters only', 400);
@@ -18,12 +19,12 @@ const schema = new Schema(
       },
     },
     lastName : {
-      type :      String,
+      type : String,
       minLength : [3, 'Last name must be at least 3 characters'],
       maxLength : [15, 'Last name must be at less than 15 characters'],
-      required :  [true, 'Last name is a required field'],
-      trim :      true,
-      match :     /^[A-Za-z\s]+$/,
+      required : [true, 'Last name is a required field'],
+      trim : true,
+      match : /^[A-Za-z\s]+$/,
       validate(value) {
         if (!value.match(/^[A-Za-z\s]+$/)) {
           throw new AppError('Last Name should contain alphabetic characters only', 400);
@@ -31,17 +32,17 @@ const schema = new Schema(
       },
     },
     userName : {
-      type :      String,
+      type : String,
       minLength : [3, 'Username must be at least 3 characters'],
       maxLength : [30, 'Username must be at less than 30 characters'],
-      required :  [true, 'Username is a required field'],
-      trim :      true,
-      unique :    true,
+      required : [true, 'Username is a required field'],
+      trim : true,
+      unique : true,
     },
     email : {
-      type :     String,
+      type : String,
       required : [true, 'Email is a required field'],
-      unique :   true,
+      unique : true,
       validate(value) {
         if (!validator.isEmail(value)) {
           throw new AppError('Invalid email', 400);
@@ -49,11 +50,11 @@ const schema = new Schema(
       },
     },
     password : {
-      type :      String,
-      required :  [true, 'Password is a required field'],
-      trim :      true,
+      type : String,
+      required : [true, 'Password is a required field'],
+      trim : true,
       minlength : [6, 'Password must be at least 6 characters'],
-      match :     /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]/,
+      match : /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]/,
 
       //@iti43OS
 
@@ -64,8 +65,8 @@ const schema = new Schema(
       },
     },
     DOB : {
-      type :      Date,
-      required :  [true, 'Date of Birth is a required field'],
+      type : Date,
+      required : [true, 'Date of Birth is a required field'],
         validator : function(birthDate) {
           const newyear = new Date(); 
           const userBirthdate = new Date(birthDate);
@@ -75,10 +76,10 @@ const schema = new Schema(
         },
     },
     phoneNumber : {
-      type :     String,
+      type : String,
       required : true,
-      trim :     true,
-      match :    /^(00201|\+201|01)[0-2,5]{1}[0-9]{8}$/,
+      trim : true,
+      match : /^(00201|\+201|01)[0-2,5]{1}[0-9]{8}$/,
       validate : {
         validator : function (value) {
           if (!value.match(/^(00201|\+201|01)[0-2,5]{1}[0-9]{8}$/)) {
@@ -88,14 +89,19 @@ const schema = new Schema(
       }, 
     },
     pImage : {
-      type :    String,
+      type : String,
       default : 'https://res.cloudinary.com/dttgbrris/image/upload/v1681003634/3899618_mkmx9b.png',
   },
-    role : {
-      type :    String,
-      enum :    ['ADMIN', 'USER'],
+  status : {
+    type : String,
+    enum : ['online', 'offline'],
+    default : 'offline'
+  },
+  role : {
+      type : String,
+      enum : ['GROUP_ADMIN', 'USER'],
       default : 'USER',
-    },
+  },
   },
   {
     timestamps : true,

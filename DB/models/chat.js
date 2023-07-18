@@ -25,6 +25,10 @@ const schema = new Schema(
       ref : 'Chat',
       required : true
     },  
+    isGroupChat : {
+        type : Boolean, 
+        default : false 
+    },
   },
   {
     timestamps : true,
@@ -40,5 +44,5 @@ schema.methods.toJSON = function () {
 
 const Chat = model('Chat', schema);
 
-module.exports = Message;
+module.exports = Chat;
 

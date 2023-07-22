@@ -1,7 +1,7 @@
 const express = require('express');
 const { asycnWrapper, AppError } = require('../lib/index');
 
-const { userController } = require('../controllers/index');
+const { messageController } = require('../controllers/index');
 const { Auth } = require('../middlewares/auth');
 const { validate } = require('../middlewares/validation');
 const { signIn } = require('../Validations/user');
@@ -9,19 +9,17 @@ const { userValidator } = require('../Validations/index');
 const { upload } = require('../middlewares/imageMiddleware');
 const router = express.Router();
 
-// Registration 
+// Send a MESSAGE  
 
-router.post('/', upload.single('pImage'), validate(userValidator.signUp), async (req, res, next) => {
-  const pImage = req.file ? req.file.path : undefined 
+router.post('/:chat', Auth, async (req, res, next) => {
+  const sender = req.user._id;
+  const { params : { chat } } = req
   const { body : {
-      firstName, lastName, userName, email, password,
-      role, phoneNumber, DOB, gender, address,
+      content
     }} = req;
 
-    const user = userController.createUser({
-      firstName, lastName, userName, email, password,
-      role, phoneNumber, DOB, gender,
-      address, pImage, 
+    const user = messageController.sendMessage({
+        sender, content, chat
     });
     const [err, data] = await asycnWrapper(user);
     if (err) return next(err);

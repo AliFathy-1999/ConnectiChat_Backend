@@ -8,14 +8,14 @@ const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 cloudinary.config({
   cloud_name : process.env.CLOUDNAIRY_CLOUD_NAME,
-  api_key :    process.env.CLOUDNAIRY_API_KEY,
+  api_key : process.env.CLOUDNAIRY_API_KEY,
   api_secret : process.env.CLOUDNAIRY_API_SECRET
 });
 
 
 const storage = new CloudinaryStorage({
   cloudinary : cloudinary,
-  params :     {
+  params : {
     folder : 'user-images'
     },
     public_id : async (req, file) => {

@@ -4,7 +4,7 @@ const { AppError } = require('../../lib');
 const schema = new Schema(
   {
     sender : {
-      type : mongoose.Schema.Types.ObjectId,
+      type : Schema.Types.ObjectId,
       ref : 'User',
       required : true
     },
@@ -14,7 +14,7 @@ const schema = new Schema(
       required : true
     },
     chat : {
-      type : mongoose.Schema.Types.ObjectId,
+      type : Schema.Types.ObjectId,
       ref : 'Chat',
       required : true
     },  

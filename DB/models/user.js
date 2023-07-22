@@ -2,7 +2,7 @@ let { Schema, model } = require('mongoose');
 const { AppError } = require('../../lib');
 const validator = require('validator');
 const bcryptjs = require('bcryptjs');
-const { v4 : uuidv4 } = require('uuid');
+
 const schema = new Schema(
   {
     firstName : {
@@ -99,7 +99,7 @@ const schema = new Schema(
   },
   role : {
       type : String,
-      enum : ['GROUP_ADMIN', 'USER'],
+      enum : ['ADMIN', 'USER'],
       default : 'USER',
   },
   },
